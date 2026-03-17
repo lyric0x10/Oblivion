@@ -1,6 +1,19 @@
-# 🔒 Oblivion Obfuscator
+# 🌑 Oblivion Obfuscator
 
-A powerful Python source code obfuscator that applies multiple layers of protection to make reverse engineering significantly harder.
+> **Python source code obfuscation that actually means business.**  
+> Most obfuscators slap Base64 on your code and call it a day. Oblivion doesn't.
+
+![Python](https://img.shields.io/badge/python-3.10%2B-blue) ![License](https://img.shields.io/github/license/yourusername/oblivion-obfuscator) ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey)
+
+---
+
+## What Makes Oblivion Different
+
+Most Python obfuscators available today rely on the same tired tricks — Base64 encoding, `marshal`/`eval` chains, and simple variable renaming. Strip those away and the logic is fully readable in minutes.
+
+Oblivion goes further. It compiles your Python source into a **custom register-based virtual machine** with randomized opcodes, meaning an attacker has to reverse-engineer an entirely custom architecture before they can even begin to understand your code. Stack that on top of control flow flattening, string encryption, global hiding, and expression decomposition — and you have layers that compound on each other.
+
+No external pip packages required. Works on all platforms.
 
 ---
 
@@ -8,19 +21,19 @@ A powerful Python source code obfuscator that applies multiple layers of protect
 
 | Feature | Description |
 |---|---|
-| **Virtualization** | Compiles Python source into a custom register-based VM with randomized opcodes |
-| **Control Flow Flattening** | Redirects all execution through a central dispatcher, eliminating readable flow |
-| **Variable Renaming** | Replaces all variable and function names with randomized hex-style identifiers |
-| **String Encryption** | Encrypts hardcoded strings with XOR + custom base encoding, decrypted only at runtime |
-| **Global Hiding** | Wraps global variable and function references to prevent static name analysis |
-| **Fracture** | Splits compound expressions into cascading temp-variable assignments |
-| **Beautify / Minify** | Optionally formats or minifies the final output |
+| **Custom Register-Based VM** | Compiles Python source into a bespoke bytecode VM with randomized opcodes per build — no two outputs share the same instruction encoding |
+| **Polymorphic Instructions** | The four fields of each VM instruction `[Op, A, B, C]` are randomly permuted, making static analysis of the bytecode format itself non-trivial |
+| **Encrypted Constants** | Strings and integers in the VM constants table are encrypted — strings use XOR + custom base encoding, integers use a deterministic PRNG mask |
+| **Control Flow Flattening** | All execution is routed through a central binary-tree dispatcher loop, eliminating any readable branching structure |
+| **Variable Renaming** | Every variable and function name is replaced with randomized hex-style identifiers |
+| **String Encryption** | Hardcoded strings are XOR-encrypted with custom base encoding and decrypted only at runtime |
+| **Global Hiding** | Global variable and function references are wrapped in proxy tables to prevent static name analysis |
+| **Fracture** | Compound expressions are decomposed into cascading temporary variable assignments, fragmenting readable logic |
+| **Beautify / Minify** | Optionally pretty-print or minify the final output |
 
 ---
 
 ## How It Works
-
-The obfuscation pipeline processes Python source code through a series of AST transformations:
 
 ```
 Source Code
@@ -28,10 +41,10 @@ Source Code
     ▼
 [Parse → AST]
     │
-    ├─▶ Virtualization       — compiles to custom bytecode VM
-    ├─▶ Encrypt Strings      — XOR + custom base encoding
-    ├─▶ Hide Globals         — proxy/table wrapping of globals
-    ├─▶ Fracture             — expression decomposition
+    ├─▶ Virtualization       — compiles to custom register-based VM bytecode
+    ├─▶ Encrypt Strings      — XOR + custom base encoding, runtime decryption
+    ├─▶ Hide Globals         — proxy/table wrapping of all global references
+    ├─▶ Fracture             — expression decomposition into temp variables
     ├─▶ Control Flow         — binary-tree dispatcher loop
     ├─▶ Rename Variables     — hex identifier replacement
     │
@@ -42,13 +55,7 @@ Source Code
 Obfuscated Output
 ```
 
-### Virtualization (VM)
-
-The VM subsystem compiles Python AST into a custom register-based bytecode format. Hardening options include:
-
-- **Randomize Opcodes** — Opcodes are assigned random integer values per build, so no two outputs share the same instruction encoding
-- **Polymorphic Instructions** — The four fields of each instruction `[Op, A, B, C]` are randomly permuted, e.g. `[C, A, Op, B]`
-- **Encrypt Constants** — Strings and integers in the constants table are encrypted; strings use XOR + custom base encoding, integers use a deterministic PRNG mask
+The pipeline is fully configurable — each layer can be toggled independently.
 
 ---
 
@@ -95,30 +102,38 @@ Settings = {
     "Rename Variables": True,
     "Encrypt Strings": True,
     "Hide Globals": True,
-    "Beautify": False,   # Set True to pretty-print, False to minify
+    "Beautify": False,   # True to pretty-print, False to minify
 }
 ```
 
 ### Running
 
 1. Place your source file at `Input/Input.py`
-2. Run the obfuscator:
+2. Run:
 
 ```bash
 python main.py
 ```
 
-3. Collect obfuscated output from `Output/Output.py`
+3. Collect the obfuscated output from `Output/Output.py`
 
 ### Skipping Virtualization on Specific Functions
 
-Decorate any function with `@OBF_NO_VIRTUALIZE` to exclude it from the VM and keep it as native Python. The function will still be accessible from within the virtualized code via an obfuscated key registered in the global function table.
+Decorate any function with `@OBF_NO_VIRTUALIZE` to exclude it from the VM and keep it as native Python. It will still be accessible from within virtualized code via an obfuscated key registered in the global function table.
 
 ```python
 @OBF_NO_VIRTUALIZE
 def my_native_function():
     ...
 ```
+
+---
+
+## Planned Features
+
+- **Mixed Boolean Arithmetic (MBA) expressions** — obfuscate integer constants and arithmetic into polynomial MBA expressions that resist simplification
+- **Function splitting** — split individual functions into multiple fragments linked by obfuscated dispatch
+- **Custom register VM enhancements** — built-in name hiding inside the VM, register cleanup (dead register overwriting), improved variable reuse tracking
 
 ---
 
@@ -138,7 +153,7 @@ pip install python-ta
 ## Limitations & Known TODOs
 
 - Built-in name hiding inside the VM is not yet implemented
-- Register cleanup (overwriting dead registers) is not yet implemented  
+- Register cleanup (overwriting dead registers) is not yet implemented
 - Variable reuse after a variable goes out of scope is not yet implemented in the renamer
 
 ---
