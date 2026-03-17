@@ -3,7 +3,7 @@
 > **Python source code obfuscation that actually means business.**  
 > Most obfuscators slap Base64 on your code and call it a day. Oblivion doesn't.
 
-![Python](https://img.shields.io/badge/python-3.10%2B-blue) ![License](https://img.shields.io/github/license/lyric0x10/oblivion-obfuscator) ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey)
+![Python](https://img.shields.io/badge/python-3.10%2B-blue) ![License](https://img.shields.io/github/license/lyric0x10/oblivion) ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey)
 
 ---
 
