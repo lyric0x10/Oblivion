@@ -1,4 +1,4 @@
-# 🔒 PyObfuscate
+# 🔒 Oblivion Obfuscator
 
 A powerful Python source code obfuscator that applies multiple layers of protection to make reverse engineering significantly harder.
 
@@ -142,7 +142,3 @@ pip install python-ta
 - Variable reuse after a variable goes out of scope is not yet implemented in the renamer
 
 ---
-
-## ⚠️ Disclaimer
-
-This tool is intended for protecting your own code — for example, commercial software distribution, license enforcement, or CTF challenge creation. Do not use it to obfuscate malicious software. You are solely responsible for how you use this tool.
