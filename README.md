@@ -22,7 +22,6 @@ A Python source-code obfuscation engine exposed as a Flask REST API. It transfor
 
 ```
 Obfuscate/
-├── Server.py                        # Flask API entry-point
 ├── VariableRenamer.py               # Rename variables / functions / parameters
 ├── ControlFlow.py                   # Control-flow flattening
 │
