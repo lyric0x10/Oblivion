@@ -13,7 +13,6 @@ Most Python obfuscators available today rely on the same tired tricks — Base64
 
 Oblivion goes further. It compiles your Python source into a **custom register-based virtual machine** with randomized opcodes, meaning an attacker has to reverse-engineer an entirely custom architecture before they can even begin to understand your code. Stack that on top of control flow flattening, string encryption, global hiding, and expression decomposition — and you have layers that compound on each other.
 
-No external pip packages required. Works on all platforms.
 
 ---
 
@@ -140,7 +139,7 @@ def my_native_function():
 ## Dependencies
 
 - Python 3.10+
-- No external pip packages required for core obfuscation
+- No external pip packages are required for core obfuscation; however, external packages are needed for code minification and beautification.
 
 Optional (for CFG generation):
 
