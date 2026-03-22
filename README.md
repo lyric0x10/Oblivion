@@ -151,9 +151,9 @@ pip install python-ta
 ---
 
 ## Limitations & Known TODOs
-
+- Add more functionality to bytecode generator.
 - Built-in name hiding inside the VM is not yet implemented
 - Register cleanup (overwriting dead registers) is not yet implemented
 - Variable reuse after a variable goes out of scope is not yet implemented in the renamer
-
+- Add an option to keep names that need to be exported.
 ---
